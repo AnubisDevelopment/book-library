@@ -1,0 +1,17 @@
+
+body {
+    background-color: darkslategrey;
+}
+
+.main-div {
+    background-color: darkkhaki;
+    height: 150px;
+    width:150px;
+    display: flex;
+  }
+  div {
+    display: block;
+    background-color: darkolivegreen;
+    height: 50px;
+    width:50px;
+  }
