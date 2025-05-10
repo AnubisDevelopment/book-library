@@ -1,13 +1,12 @@
 let myArray = []
-
 let myDiv = document.querySelector('.main-div')
 
-//crypto.randomUUID()
-
-function Book (title,author,pages){
+function Book (title,author,pages, read){
   this.title = title
   this.author = author
   this.pages = pages
+  this.id = self.crypto.randomUUID()
+  this.read = read
 }
 
 function addBook(...y){
@@ -20,19 +19,40 @@ function addBook(...y){
 function arrayTraversal (x){
     myDiv.replaceChildren()
     for(x of myArray){
-    //need to figure out way to only add newest addbook call
 
     let divBook = document.createElement('div')
-    divBook.setAttribute('id', crypto.randomUUID())
+    let removeButton = document.createElement('button')
+    let readStatus = document.createElement('button')
+    
+    readStatus.textContent = 'Unread'
+    removeButton.textContent = 'Remove Book'
     divBook.textContent = `${x.title} by ${x.author} spanning ${x.pages} pages.`
+      //sets removeButton id to match the index of array it was
+      //placed in. When pressed removes the array index associated
+      //with button.
+      removeButton.setAttribute('data-index', 'my-value')
+      removeButton.dataset.index = myArray.length-1
+      removeButton.addEventListener('click', () => {
+        myArray.splice(removeButton.dataset.index, 1)
+        arrayTraversal()
+        console.log(myArray)
+      })
+      
+      readStatus.addEventListener('click', () => {
+        readStatus.textContent = 'Finished'
+      })
+
     myDiv.appendChild(divBook)
+    divBook.appendChild(removeButton)
+    divBook.appendChild(readStatus)
+    console.log(myArray)
+    console.log(removeButton.dataset.index)
     }
 }
 
 addBook('hobbit', 'tolkien', 536)
 addBook('lord of ring', 'tolkien', 892)
 addBook('badabing', 'tolkien', 892)
-console.log(myArray)
 
 //dialog button interactions
 const showButton = document.querySelector('.book-button');
@@ -42,8 +62,6 @@ const confirmBtn = dialog.querySelector('#confirmBtn')
 const titleBook = document.querySelector('#title')
 const authorBook = document.querySelector('#author')
 const pagesBook = document.querySelector('#page-count')
-//figure out how to call add button when confirm button
-//is pressed returning all values from their respecitve field
 
 confirmBtn.addEventListener('click', (e) => {
   e.preventDefault();
